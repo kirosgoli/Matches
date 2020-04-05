@@ -11,12 +11,12 @@ namespace Matches.Tests
         [TestMethod]
         public void GetEquation()
         {
-            String data = "2+3=7";
+            String data = "2+5=7";
 
             Matches.Equation equ = Matches.EquationFactory.GetEquation(data);
             Assert.AreEqual(data, equ.Resolve());
 
-            data = "2-3=7";
+            data = "5-2=3";
 
             equ = Matches.EquationFactory.GetEquation(data);
             Assert.AreEqual(data, equ.Resolve());

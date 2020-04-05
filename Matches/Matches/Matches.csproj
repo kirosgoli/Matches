@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="ljxn05bc.b2y~" />
+  </ItemGroup>
+
 </Project>

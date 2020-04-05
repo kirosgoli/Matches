@@ -10,5 +10,10 @@ namespace Matches.Operators
         {
             return -1;
         }
+
+        public override string ToString()
+        {
+            return "-";
+        }
     }
 }

@@ -14,5 +14,9 @@ namespace Matches.Operators
         }
 
         internal abstract int GetSign();
+
+        internal abstract Sign Reverse();
+
+        internal abstract Dictionary<int, Numbers> GetTransformationDictionary();
     }
 }

@@ -35,6 +35,49 @@ namespace Matches
             var reverse_sign = this.sign.Reverse();
             var sign_trans_dict = reverse_sign.GetTransformationDictionary();
             result.AddEquation(CheckWithThisConfiguration(reverse_sign, sign_trans_dict));
+
+            foreach (var item in DictionaryTransformationMatchesMinusOne.Dictionary[x.Value])
+            {
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[y.Value])
+                {
+                    if (CheckEquation(item, item2, sign, z))
+                        result.AddEquation(FormatFinalResult(item, item2, sign, z));
+                }
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[z.Value])
+                {
+                    if (CheckEquation(item, y, sign, item2))
+                        result.AddEquation(FormatFinalResult(item, y, sign, item2));
+                }
+            }
+
+            foreach (var item in DictionaryTransformationMatchesMinusOne.Dictionary[y.Value])
+            {
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[x.Value])
+                {
+                    if (CheckEquation(item2, item, sign, z))
+                        result.AddEquation(FormatFinalResult(item2, item, sign, z));
+                }
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[z.Value])
+                {
+                    if (CheckEquation(x, item, sign, item2))
+                        result.AddEquation(FormatFinalResult(x, item, sign, item2));
+                }
+            }
+
+            foreach (var item in DictionaryTransformationMatchesMinusOne.Dictionary[z.Value])
+            {
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[x.Value])
+                {
+                    if (CheckEquation(item2, y, sign, item))
+                        result.AddEquation(FormatFinalResult(item2, y, sign, item));
+                }
+                foreach (var item2 in DictionaryTransformationMatchesAddOne.Dictionary[y.Value])
+                {
+                    if (CheckEquation(x, item2, sign, item))
+                        result.AddEquation(FormatFinalResult(x, item2, sign, item));
+                }
+            }
+
             return result;
         }
 

@@ -50,5 +50,17 @@ namespace Matches.Tests
             equ = Matches.EquationFactory.GetEquation("5+5=4");
             Assert.AreEqual("9-5=4", equ.Resolve().Equations[0]);
         }
+
+        [TestMethod]
+        public void Should_Resolve_With_Transformation_Beetwen_Numbers()
+        {
+            Matches.Equation equ = Matches.EquationFactory.GetEquation("8-3=5");
+            //[0] -> 8-3 = 5
+            Assert.AreEqual("9-3=6", equ.Resolve().Equations[1]);
+
+            equ = Matches.EquationFactory.GetEquation("9+8=5");
+            //[0] -> 8-3 = 5
+            Assert.AreEqual("9+0=9", equ.Resolve().Equations[0]);
+        }
     }
 }

@@ -24,5 +24,17 @@ namespace Matches.SimpleGUI
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ResultsList.Items.Clear();
+            string sEquation = tbEquation.Text;
+            Result result = EquationFactory.GetEquation(sEquation).Resolve();
+            if (result.Ok)
+            {
+                foreach (var r in result.Equations)
+                    ResultsList.Items.Add(r);
+            }
+        }
     }
 }

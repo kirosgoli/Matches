@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Matches\Matches.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -31,5 +31,13 @@ namespace Matches
             if (!equations.Contains(_equation))
                 equations.Add(_equation);
         }
+
+        internal void AddEquation(IEnumerable<string> _equations)
+        {
+            foreach (var equation in _equations)
+            {
+                AddEquation(equation);
+            }
+        }
     }
 }

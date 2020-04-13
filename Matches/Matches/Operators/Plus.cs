@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matches.Dictionaries;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,16 @@ namespace Matches.Operators
         public override string ToString()
         {
             return "+";
+        }
+
+        internal override Sign Reverse()
+        {
+            return SignFactory.GetSign("-");
+        }
+
+        internal override Dictionary<int, Numbers> GetTransformationDictionary()
+        {
+            return DictionaryTransformationMatchesMinusOne.Dictionary;
         }
     }
 }

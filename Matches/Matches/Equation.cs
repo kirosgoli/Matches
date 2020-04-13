@@ -22,58 +22,62 @@ namespace Matches
             this.sign = sign;
         }
 
-        public string Resolve()
+        public Result Resolve()
         {
             result = new Result();
             //first without adding or minus
             if (CheckEquation(x, y, sign, z))
-                return FormatFinalResult(x, y, sign, z);
+                result.AddEquation(FormatFinalResult(x, y, sign, z));
 
             var dict = DictionaryTransformationMatchesWithoutMove.Dictionary;
-            String sResult = CheckWithThisConfiguration(sign, dict);
-            if (!string.IsNullOrEmpty(sResult))
-                return sResult;
+            result.AddEquation(CheckWithThisConfiguration(sign, dict));
 
             var reverse_sign = this.sign.Reverse();
             var sign_trans_dict = reverse_sign.GetTransformationDictionary();
-            sResult = CheckWithThisConfiguration(reverse_sign, sign_trans_dict);
-            return sResult;
+            result.AddEquation(CheckWithThisConfiguration(reverse_sign, sign_trans_dict));
+            return result;
         }
 
-        private string CheckWithThisConfiguration(Sign _sign, Dictionary<int, Numbers> _dict)
+        private List<string> CheckWithThisConfiguration(Sign _sign, Dictionary<int, Numbers> _dict)
         {
-            string sResult = string.Empty;
+            List<string> oResult = new List<string>();
+            String sEquation = string.Empty;
             Numbers numbers = new Numbers { x, y, z };
             for (int i = 0; i < numbers.Count; i++)
             {
-                sResult = CheckAllTransformationForNumberPosition(numbers[i], _sign, _dict, i);
-                if (!string.IsNullOrEmpty(sResult))
-                    return sResult;
+                sEquation = CheckAllTransformationForNumberPosition(numbers[i], _sign, _dict, i);
+                if (!string.IsNullOrEmpty(sEquation))
+                    oResult.Add(sEquation);
             }
-            return sResult;
+            return oResult;
         }
 
         private string CheckAllTransformationForNumberPosition(Number _number, Sign _sign, Dictionary<int, Numbers> _dict, int position)
         {
+            Func<Number, bool> f = null;
+            Func<Number, string> r = null;
+            switch (position)
+            {
+                case 0:
+                    f = new Func<Number, bool>(number => CheckEquation(number, y, _sign, z));
+                    r = new Func<Number, string>(number => FormatFinalResult(number, y, _sign, z));
+                    break;
+
+                case 1:
+                    f = new Func<Number, bool>(number => CheckEquation(x, number, _sign, z));
+                    r = new Func<Number, string>(number => FormatFinalResult(x, number, _sign, z));
+                    break;
+
+                case 2:
+                    f = new Func<Number, bool>(number => CheckEquation(x, y, _sign, number));
+                    r = new Func<Number, string>(number => FormatFinalResult(x, y, _sign, number));
+                    break;
+            }
+
             foreach (Number number in _dict[_number.Value])
             {
-                switch (position)
-                {
-                    case 0:
-                        if (CheckEquation(number, y, _sign, z))
-                            return FormatFinalResult(number, y, _sign, z);
-                        break;
-
-                    case 1:
-                        if (CheckEquation(x, number, _sign, z))
-                            return FormatFinalResult(x, number, _sign, z);
-                        break;
-
-                    case 2:
-                        if (CheckEquation(x, y, _sign, number))
-                            return FormatFinalResult(x, y, _sign, number);
-                        break;
-                }
+                if (f.Invoke(number))
+                    return r.Invoke(number);
             }
             return string.Empty;
         }
